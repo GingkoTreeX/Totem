@@ -2,7 +2,7 @@ package net.GingkoTreeX.Totem.Controller.commands;
 
 
 import net.GingkoTreeX.Totem.Features.ModuleHackFramework;
-import net.GingkoTreeX.Totem.Features.ModuleManager;
+import net.GingkoTreeX.Totem.Controller.ModuleManager;
 import net.GingkoTreeX.Totem.Utils.AddChatMessage;
 
 public class Commands {
@@ -24,7 +24,7 @@ public class Commands {
                 try {
                     keyValue = Integer.parseInt(parts[1]);
                 } catch (NumberFormatException nfe) {
-                    new AddChatMessage().addGreenChatMessage("Invalid key value provided.");
+                    AddChatMessage.addGreenChatMessage("Invalid key value provided.");
                     return;
                 }
 
@@ -35,12 +35,12 @@ public class Commands {
                 if (module != null) {
                     // 设置模块的按键绑定
                     ModuleHackFramework.getInstance().setModuleKeyBind(module.getClass(), keyValue);
-                    new AddChatMessage().addGreenChatMessage("Bound key '" + keyValue + "' to module '" + moduleName + "'.");
+                    AddChatMessage.addGreenChatMessage("Bound key '" + keyValue + "' to module '" + moduleName + "'.");
                 } else {
-                    new AddChatMessage().addGreenChatMessage("Module '" + moduleName + "' does not exist.");
+                    AddChatMessage.addGreenChatMessage("Module '" + moduleName + "' does not exist.");
                 }
             } else {
-                new AddChatMessage().addGreenChatMessage("Incorrect number of arguments given.");
+                AddChatMessage.addGreenChatMessage("Incorrect number of arguments given.");
             }
         }
     }

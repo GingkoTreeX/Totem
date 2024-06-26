@@ -1,9 +1,11 @@
 package net.GingkoTreeX.Totem.Features;
 
 import net.GingkoTreeX.Totem.Controller.HackFramework;
-import net.GingkoTreeX.Totem.Features.Model.AutoEat;
-import net.GingkoTreeX.Totem.Features.Model.FastUse;
-import net.GingkoTreeX.Totem.Features.Model.KillAura;
+import net.GingkoTreeX.Totem.Controller.ModuleManager;
+import net.GingkoTreeX.Totem.Features.Module.AutoEat;
+import net.GingkoTreeX.Totem.Features.Module.FastUse;
+import net.GingkoTreeX.Totem.Features.Module.KillAura;
+import net.GingkoTreeX.Totem.Gui.ClickGui;
 
 import java.util.ArrayList;
 import java.util.EventListener;
@@ -21,12 +23,12 @@ public class ModuleHackFramework extends HackFramework implements EventListener 
     }
 
     private ModuleHackFramework() {
-        super("Combat", Category.COMBAT, true);
+        super("Module",Category.COMBAT, true);
         // 在此处注册您的模块
+        registerModule(new ClickGui());
         registerModule(new KillAura());
         registerModule(new FastUse());
         registerModule(new AutoEat());
-        // ...
     }
 
 
@@ -37,6 +39,10 @@ public class ModuleHackFramework extends HackFramework implements EventListener 
             }
         }
         return null;
+    }
+
+    public List<ModuleManager> getAllModules(){
+       return super.getModules();
     }
 
     public List<ModuleManager> getCategoryModules(Category category) {

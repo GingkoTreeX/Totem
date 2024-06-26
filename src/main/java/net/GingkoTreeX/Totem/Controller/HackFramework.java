@@ -1,7 +1,6 @@
 package net.GingkoTreeX.Totem.Controller;
 
 import net.GingkoTreeX.Totem.Features.Category;
-import net.GingkoTreeX.Totem.Features.ModuleManager;
 import net.minecraft.network.Packet;
 
 import java.util.ArrayList;
@@ -22,6 +21,7 @@ public abstract class HackFramework {
         this.category = category;
         this.visible = visible;
     }
+
     // 获取框架的类型
     public Category getCategory() {
         return category;

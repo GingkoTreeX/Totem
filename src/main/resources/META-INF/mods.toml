@@ -6,7 +6,7 @@ license = "Insert License Here"
 [[mods]]
 modId = "totem"
 version = "${version}"
-displayName = "TotemClient"
+displayName = "TotemMod"
 authors = "GingkoTreeX"
 description = '''
 A free and open-source cheat mod written in Java

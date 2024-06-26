@@ -10,7 +10,7 @@ import java.util.List;
 
 public class AuraUtil {
     // 玩家 搜索半径和搜索范围
-    public void attackNearestEntity(PlayerEntity player,double reach) {
+    public static void attackNearestEntity(PlayerEntity player,double reach) {
 
 
         List<PlayerEntity> playerList = (List<PlayerEntity>) player.world.getPlayers();
@@ -28,24 +28,20 @@ public class AuraUtil {
             if (distance <= reach) {
                 player.setSprinting(true);
                 player.setOnGround(false);
-                MinecraftClient client = MinecraftClient.getInstance();
                 if (MinecraftClient.getInstance().interactionManager != null) {
                     MinecraftClient.getInstance().interactionManager.attackEntity(player, target);
                     player.resetLastAttackedTicks();
-                    player.setVelocity(4, 0, -4);
                     MinecraftClient.getInstance().interactionManager.attackEntity(player, target);
                 }
+
                 player.swingHand(Hand.MAIN_HAND); // 模拟玩家挥动手臂
-                player.setHeadYaw(player.headYaw + 90L);//扭头，很吊，看起来帅
+                player.setHeadYaw(player.headYaw + 30L);//扭头，很吊，看起来帅
                 PlayerInteractEntityC2SPacket.attack(target, false);
                 player.resetLastAttackedTicks();
-
-                player.setVelocity(-4, 0, 4);
                 PlayerInteractEntityC2SPacket.attack(target, true);
 
-
             }
-            if (player.getHealth() < 6) {
+            if (player.getHealth() > 6) {
                 if (distance <= 60) {
                     // 制裁飞行
                     if (player.getY() < target.getY() - 1)

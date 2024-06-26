@@ -2,23 +2,27 @@ package net.GingkoTreeX.Totem.Features.Module;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectMaps;
 import net.GingkoTreeX.Totem.Features.Category;
-import net.GingkoTreeX.Totem.Features.ModuleManager;
+import net.GingkoTreeX.Totem.Controller.ModuleManager;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.network.packet.c2s.play.ClickSlotC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerInteractItemC2SPacket;
+import net.minecraft.screen.slot.Slot;
+import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.util.Hand;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.Objects;
 
-import static net.minecraft.screen.slot.SlotActionType.PICKUP;
+import static net.minecraft.screen.slot.SlotActionType.*;
+
 
 public class AutoEat extends ModuleManager {
     private long lastActionTime;
-    private static final int MINIMUM_DELAY_MS = 500; // 假设最小延迟为500毫秒
+    private static final int MINIMUM_DELAY_MS = 5000;
 
 
     public AutoEat() {
@@ -32,6 +36,7 @@ public class AutoEat extends ModuleManager {
 
     @Override
     public void onUpdate() {
+        if (!isEnabled())return;
         PlayerEntity player = MinecraftClient.getInstance().player;
         if (player != null && player.getHealth() < 10) {
 // 检查是否应该允许行动
@@ -49,22 +54,20 @@ public class AutoEat extends ModuleManager {
 
                     if (MinecraftClient.getInstance().interactionManager != null) {
 
-                        ClickSlotC2SPacket packet = new ClickSlotC2SPacket(
-                                0, // syncId
-                                /* revision */ 0,
-                                slot, // slot 目标槽位
-                                0, // button 常规点击
-                                PICKUP,
-                                player.getMainHandStack().copy(), // stack 复制一份手持物品栈以防原物品被意外修改
-                                Int2ObjectMaps.emptyMap() // modifiedStacks 空表示无额外修改记录
-                        );
-                        Objects.requireNonNull(MinecraftClient.getInstance().getNetworkHandler()).sendPacket(packet);
-                        PlayerInteractItemC2SPacket usePacket = new PlayerInteractItemC2SPacket(Hand.MAIN_HAND);
-                        Objects.requireNonNull(MinecraftClient.getInstance().getNetworkHandler()).sendPacket(usePacket);
-                    }
-                    break;
+                        MinecraftClient mc = MinecraftClient.getInstance();
+                        PlayerInventory inventory = mc.player.getInventory();
 
+                        for (int i = 0; i < inventory.main.size(); ++i) { // 遍历主物品栏的每个槽位
+                            ItemStack stackInSlot = inventory.main.get(i);
 
+                            if (!stackInSlot.isEmpty() && stackInSlot.getItem() == player.getMainHandStack().getItem()) {
+
+                                lastActionTime=System.currentTimeMillis();
+                            }
+                            break;
+
+                            }
+                        }
                 }
             }
             }
