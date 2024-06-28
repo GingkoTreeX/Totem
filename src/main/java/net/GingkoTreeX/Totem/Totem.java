@@ -1,16 +1,14 @@
 package net.GingkoTreeX.Totem;
 
 import com.mojang.logging.LogUtils;
-import net.GingkoTreeX.Totem.Controller.HackFramework;
 import net.GingkoTreeX.Totem.Features.ModuleHackFramework;
 import net.GingkoTreeX.Totem.Controller.ModuleManager;
 import net.GingkoTreeX.Totem.Gui.ClickGui;
+import net.GingkoTreeX.Totem.Gui.Hud.Hud;
 import net.GingkoTreeX.Totem.Utils.WindowUtils;
-import net.GingkoTreeX.Totem.Controller.commands.Commands;
-import net.GingkoTreeX.Totem.Gui.Hud.ModHUD;
 import net.minecraft.client.MinecraftClient;
-import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -30,6 +28,7 @@ public class Totem {
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new ClickGui());
+        MinecraftForge.EVENT_BUS.register(new Hud());
     }
 
     private void setup(final FMLCommonSetupEvent event) {
@@ -51,11 +50,4 @@ public class Totem {
             }
         }
     }
-
-    @SubscribeEvent
-    public static void onPlayerLogin(EntityJoinWorldEvent event) {
-        new WindowUtils().setTotemWindow();
-    }
-
-
 }

@@ -1,14 +1,34 @@
 package net.GingkoTreeX.Totem.Utils;
 
 
+import com.sun.jna.platform.unix.X11;
+import com.sun.jna.platform.win32.WinUser;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Mouse;
+import net.minecraft.client.WindowSettings;
+import net.minecraft.client.gl.WindowFramebuffer;
+import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
+import net.minecraft.client.gui.screen.option.MouseOptionsScreen;
+import net.minecraft.client.gui.widget.ClickableWidget;
+import net.minecraft.text.Text;
+import org.lwjgl.system.Pointer;
+import org.lwjgl.system.windows.WINDOWPLACEMENT;
 
+import javax.swing.FocusManager;
+import javax.swing.plaf.basic.BasicListUI;
+import javax.swing.plaf.basic.BasicTreeUI;
+import java.awt.*;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
+import java.lang.reflect.Field;
 import java.util.Locale;
 
-public class WindowUtils {
-    public static void setTotemWindow() {
-        MinecraftClient mc = MinecraftClient.getInstance();
+import static org.lwjgl.glfw.GLFW.glfwSetMouseButtonCallback;
 
+public class WindowUtils{
+
+    private static final MinecraftClient mc = MinecraftClient.getInstance();
+    public static void setTotemWindow() {
         if (mc != null && mc.getWindow() != null) {
             mc.getWindow().setTitle("[Totem-1.18] Debug:"+MinecraftClient.getInstance().fpsDebugString);
 /*
@@ -28,5 +48,4 @@ public class WindowUtils {
 
         }
     }
-
 }
