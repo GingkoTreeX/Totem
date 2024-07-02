@@ -1,9 +1,10 @@
 {
   "required": true,
-  "package": "net.GingkoTreeX.Totem.Mixin",
+  "package": "net.GingkoTreeX.totem.mixin",
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
   "client": [
+
   ],
   "mixins": [
     "MixinMouse"
