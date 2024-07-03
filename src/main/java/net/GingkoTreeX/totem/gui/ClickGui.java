@@ -2,6 +2,7 @@ package net.GingkoTreeX.totem.gui;
 
 import java.util.List; import java.util.Objects;
 
+import net.GingkoTreeX.totem.features.module.KillAura;
 import org.lwjgl.glfw.GLFW;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -33,6 +34,7 @@ import net.GingkoTreeX.totem.controller.ModuleManager; import net.GingkoTreeX.to
 
     @SubscribeEvent
     public void onRenderGameOverlay(RenderGameOverlayEvent event) {
+        int level = 1;
         if (event.getType() == RenderGameOverlayEvent.ElementType.ALL && isOpen) {
             MatrixStack matrixStack = event.getMatrixStack();
             RenderSystem.disableDepthTest();
@@ -64,9 +66,9 @@ import net.GingkoTreeX.totem.controller.ModuleManager; import net.GingkoTreeX.to
                     yPosition = 30;
                     xPosition = xPosition + listWidth;
                 }// 初始y坐标;
+                level =  module.getModuleLevel();
             }
             // 绘制全局强度等级GUI
-            int level = this.getModuleLevel();
             DrawableHelper.fill(matrixStack, xPosition + listWidth + 10, yPosition, xPosition + listWidth + 10 + 270, yPosition + 50, 0x80000000);
             mc.textRenderer.drawWithShadow(matrixStack, "全局强度等级 优化自动配置:", xPosition + listWidth+40, yPosition + 25, 0xFFFFFF);
             mc.textRenderer.drawWithShadow(matrixStack, "(等级越高越暴力 例如杀戮光环距离提升等) 当前等级:" + level, xPosition + listWidth+40, yPosition + 35, 0xFFFFFF);
@@ -80,9 +82,9 @@ import net.GingkoTreeX.totem.controller.ModuleManager; import net.GingkoTreeX.to
             // 检测鼠标是否在GUI区域内，并执行相应的操作
                 if (mc.mouse.wasLeftButtonClicked()) {
                     if (checkMouseHover(xPosition + listWidth + 10, yPosition + 10, 20, 10)) {
-                        onClickLevelButton(true);
+                        onClickLevelButton(true,level);
                     }else if (checkMouseHover(xPosition + listWidth + 10, yPosition + 25, 20, 10)){
-                        onClickLevelButton(false);
+                        onClickLevelButton(false,level);
                     }
                 }
             RenderSystem.disableBlend();
@@ -99,14 +101,14 @@ import net.GingkoTreeX.totem.controller.ModuleManager; import net.GingkoTreeX.to
         }
     }
 
-    private void onClickLevelButton(boolean plusOrMinus) {
+    private void onClickLevelButton(boolean plusOrMinus,int level) {
         if ((System.currentTimeMillis() - lastActionTime) > MINIMUM_DELAY_MS) {
             if (plusOrMinus) {
                 MessageUtils.addPinkChatMessage("[DEBUG]成功增加等级");
-                ModuleHackFramework.getInstance().setAllModulesLevel(this.getModuleLevel() + 1);
+                ModuleHackFramework.getInstance().setAllModulesLevel(level+1);
             }else {
                 MessageUtils.addPinkChatMessage("[DEBUG]成功降低等级");
-                ModuleHackFramework.getInstance().setAllModulesLevel(this.getModuleLevel() - 1);
+                ModuleHackFramework.getInstance().setAllModulesLevel(level-1);
             }
             lastActionTime = System.currentTimeMillis();
         }

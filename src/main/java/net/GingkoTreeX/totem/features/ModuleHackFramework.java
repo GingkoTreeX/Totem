@@ -45,11 +45,15 @@ public class ModuleHackFramework extends HackFramework implements EventListener 
 
 
     public void setAllModulesLevel(int level) {
-        for (ModuleManager module : ModuleHackFramework.getInstance().getModules()) {
+        for (ModuleManager module : ModuleHackFramework.getInstance().getAllModules()) {
             module.setModuleLevel(level);
         }
     }
-
+    public void resetAllModulesLevel() {
+        for (ModuleManager module : ModuleHackFramework.getInstance().getAllModules()) {
+            module.setModuleLevel(1);
+        }
+    }
 
     public List<ModuleManager> getAllModules(){
        return super.getModules();

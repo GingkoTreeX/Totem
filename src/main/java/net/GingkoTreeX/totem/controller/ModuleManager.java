@@ -5,7 +5,6 @@ import net.GingkoTreeX.totem.features.Category;
 import net.GingkoTreeX.totem.features.ModuleHackFramework;
 import net.GingkoTreeX.totem.utils.MessageUtils;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.util.InputUtil;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
@@ -90,14 +89,6 @@ public abstract class ModuleManager {
             }
             long windowHandle = MinecraftClient.getInstance().getWindow().getHandle();
             return GLFW.glfwGetKey(windowHandle, keyBind) == GLFW.GLFW_PRESS;
-    }
-    public boolean isKeyDown(int key) {
-        keyBind = key;
-        if (keyBind == 0) {
-            return false;
-        }
-        long windowHandle = MinecraftClient.getInstance().getWindow().getHandle();
-        return GLFW.glfwGetKey(windowHandle, keyBind) == GLFW.GLFW_PRESS;
     }
 
     public void onEnable() {}

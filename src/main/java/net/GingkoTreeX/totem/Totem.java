@@ -24,6 +24,7 @@ public class Totem {
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new ClickGui());
         MinecraftForge.EVENT_BUS.register(new Hud());
+        ModuleHackFramework.getInstance().resetAllModulesLevel();
     }
 
     private void setup(final FMLCommonSetupEvent event) {
