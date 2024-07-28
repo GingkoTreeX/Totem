@@ -5,7 +5,6 @@ import net.GingkoTreeX.totem.features.ModuleHackFramework;
 
 import javax.swing.*;
 import java.io.*;
-import java.util.Arrays;
 import java.util.List;
 
 @SuppressWarnings("CallToPrintStackTrace")
@@ -38,9 +37,21 @@ public class ConfigManager {
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
                 if (parts.length >= 4) { // 更新条件
-                    String moduleName = parts[0];
-                    boolean enabled = Boolean.parseBoolean(parts[1]);
-                    Integer keyBind = Integer.parseInt(parts[2]);
+                    String moduleName = "def";
+                    boolean enabled = false;
+                    Integer keyBind = null;
+                    try {
+                        moduleName = parts[0];
+                    } catch (Exception e){StackTraceElement[] s = e.getStackTrace();
+                        JOptionPane.showConfirmDialog(null,s,"功能名称获取错误", JOptionPane.DEFAULT_OPTION,JOptionPane.ERROR_MESSAGE);}
+                    try {
+                        enabled = Boolean.parseBoolean(parts[1]);
+                    } catch (Exception e){StackTraceElement[] s = e.getStackTrace();
+                        JOptionPane.showConfirmDialog(null,s,"功能启动状态获取错误", JOptionPane.DEFAULT_OPTION,JOptionPane.ERROR_MESSAGE);}
+                    try {
+                        keyBind = parts[2].equals("null") ? null : Integer.parseInt(parts[2]);
+                    } catch (Exception e){StackTraceElement[] s = e.getStackTrace();
+                        JOptionPane.showConfirmDialog(null,s,"功能按键绑定获取错误", JOptionPane.DEFAULT_OPTION,JOptionPane.ERROR_MESSAGE);}
                     double configValue = Double.parseDouble(parts[3]);
                     for (FeatureModule module : modules) {
                         System.out.println(module.getName());
