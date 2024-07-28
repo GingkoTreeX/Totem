@@ -1,16 +1,27 @@
 package net.GingkoTreeX.totem.features.module;
 
-import net.GingkoTreeX.totem.features.Module;
+import net.GingkoTreeX.totem.features.FeatureModule;
 import net.GingkoTreeX.totem.features.Category;
 import net.GingkoTreeX.totem.utils.AuraUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 
-public class AutoPursuit extends Module {
+public class AutoPursuit extends FeatureModule {
    public AutoPursuit(){
        super("AutoPursuit", Category.COMBAT, "Auto fly to your target(Only HvH)",null,null,0);
    }
+
+    @Override
+    public void onEnable() {
+
+    }
+
+    @Override
+    public void onDisable() {
+
+    }
+
     @Override
     public void onUpdate() {
         if (this.isEnabled()){
@@ -33,7 +44,6 @@ public class AutoPursuit extends Module {
        if (player.getHealth() > 6) {
            if (distance <= 60) {
                // 制裁飞行
-               if (player.getY() < target.getY() - 1) player.setPos(player.getX(), player.getY() + 1, player.getZ());
                if (distance > 30) {
                    player.setVelocity(
                            (target.getX() - player.getX()) / 6,

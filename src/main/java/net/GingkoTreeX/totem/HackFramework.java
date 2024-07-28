@@ -1,7 +1,7 @@
 package net.GingkoTreeX.totem;
 
 import net.GingkoTreeX.totem.features.Category;
-import net.GingkoTreeX.totem.features.Module;
+import net.GingkoTreeX.totem.features.FeatureModule;
 import net.minecraft.network.Packet;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ public abstract class HackFramework {
     private final Category category;   // 框架的类型
     private final boolean visible;   // 框架是否可见
 
-    private final Map<Class<? extends Module>, Module> modules = new HashMap<>();   // 模块列表
+    private final Map<Class<? extends FeatureModule>, FeatureModule> modules = new HashMap<>();   // 模块列表
 
     // 构造函数，初始化 HackFramework 的各个成员变量
     public HackFramework(String name, Category category, boolean visible) {
@@ -35,18 +35,18 @@ public abstract class HackFramework {
 
 
     // 获取指定类型的模块
-    public Module getModule(Class<? extends Module> moduleClass) {
+    public FeatureModule getModule(Class<? extends FeatureModule> moduleClass) {
         return modules.get(moduleClass);
     }
 
     // 获取所有模块
-    public List<Module> getModules() {
+    public List<FeatureModule> getModules() {
         return new ArrayList<>(modules.values());
     }
 
     // 判断指定类型的模块是否启用
-    public boolean isModuleEnabled(Class<? extends Module> moduleClass) {
-        Module module = getModule(moduleClass);
+    public boolean isModuleEnabled(Class<? extends FeatureModule> moduleClass) {
+        FeatureModule module = getModule(moduleClass);
         return module != null && module.isEnabled();
     }
 
@@ -67,14 +67,14 @@ public abstract class HackFramework {
     public void onPacketSent(Packet<?> packet) {}
 
     // 注册一个模块
-    public void registerModule(Module module) {
+    public void registerModule(FeatureModule module) {
         modules.put(module.getClass(), module);
     }
 
 
     // 给模块设置按键绑定
-    public void setModuleKeyBind(Class<? extends Module> moduleClass, int key) {
-        Module module = getModule(moduleClass);
+    public void setModuleKeyBind(Class<? extends FeatureModule> moduleClass, int key) {
+        FeatureModule module = getModule(moduleClass);
         if (module != null) {
             module.setKeyBind(key);
         }

@@ -2,7 +2,7 @@ package net.GingkoTreeX.totem.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.GingkoTreeX.totem.features.Category;
-import net.GingkoTreeX.totem.features.Module;
+import net.GingkoTreeX.totem.features.FeatureModule;
 import net.GingkoTreeX.totem.features.ModuleHackFramework;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
@@ -17,14 +17,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-@Mod.EventBusSubscriber(modid = "totem", bus = Mod.EventBusSubscriber.Bus.MOD) public class ClickGui extends Module {
+@Mod.EventBusSubscriber(modid = "totem", bus = Mod.EventBusSubscriber.Bus.MOD) public class ClickGui extends FeatureModule {
     public static boolean isOpen;
     private final MinecraftClient mc = MinecraftClient.getInstance();
 
     private long lastActionTime;
     private static final int MINIMUM_DELAY_MS = 300;// 点击间隔
 
-    private Map<Module, Boolean> menuStates = new HashMap<>(); // 记录每个模块的菜单状态
+    private Map<FeatureModule, Boolean> menuStates = new HashMap<>(); // 记录每个模块的菜单状态
 
     public ClickGui() {
         super("ClickGUI", Category.RENDER, "ClickGUI", GLFW.GLFW_KEY_G,null,0);
@@ -32,11 +32,10 @@ import java.util.Objects;
 
     @Override
     public void onEnable() {
-        super.onEnable();
         isOpen = true;
-        List<Module> modules = ModuleHackFramework.getInstance().getAllModule();
+        List<FeatureModule> modules = ModuleHackFramework.getInstance().getAllModule();
         menuStates.clear();
-        for (Module module : modules) {
+        for (FeatureModule module : modules) {
             menuStates.put(module,false);
         }
         mc.mouse.unlockCursor();
@@ -44,10 +43,9 @@ import java.util.Objects;
 
     @Override
     public void onDisable() {
-        super.onDisable();
         isOpen = false;
-        List<Module> modules = ModuleHackFramework.getInstance().getAllModule();
-        for (Module module : modules) {
+        List<FeatureModule> modules = ModuleHackFramework.getInstance().getAllModule();
+        for (FeatureModule module : modules) {
             menuStates.put(module, false);
         }
         menuStates = new HashMap<>();
@@ -65,8 +63,8 @@ import java.util.Objects;
             int yPosition = 30;// 初始y坐标
             int elementHeight = 40;// 每个功能的高度
             int listWidth = 120;// ~宽度
-            List<Module> modules = ModuleHackFramework.getInstance().getAllModule();
-            for (Module module : modules) {
+            List<FeatureModule> modules = ModuleHackFramework.getInstance().getAllModule();
+            for (FeatureModule module : modules) {
                 // 绘制前进行点击检测，基于当前Y位置
                 if (checkMouseHover(xPosition, yPosition + 2, listWidth, elementHeight) && mc.mouse.wasLeftButtonClicked()) {
                     handleModuleClick(module);
@@ -78,15 +76,16 @@ import java.util.Objects;
                 if (menuStates.get(module)!=null && menuStates.get(module)){
                     double mouseX = mc.mouse.getX();
                     double mouseY = mc.mouse.getY();
-                    Button plusButton = new Button(xPosition + listWidth + 10, yPosition + 10, 20, 10, "+");
-                    Button minusButton = new Button(xPosition + listWidth + 10, yPosition + 25, 20, 10, "-");
                     // 绘制按钮
-                    plusButton.draw(mc, matrixStack, (int) mouseX, (int) mouseY);
-                    minusButton.draw(mc, matrixStack, (int) mouseX, (int) mouseY);
-                    DrawableHelper.fill(matrixStack, xPosition + listWidth + 10, yPosition, xPosition + listWidth + 10 + 170, yPosition + 50, 0x80000000);
-                    mc.textRenderer.drawWithShadow(matrixStack, module.getName()+" config", xPosition + listWidth+40, yPosition + 25, 0xFFFFFF);
-                    mc.textRenderer.drawWithShadow(matrixStack, module.getConfigName() + String.format("%.1f",module.getConfig()), xPosition + listWidth+40, yPosition + 35, 0xFFFFFF);
-
+                    if (module.getConfigName() != null) {
+                        Button plusButton = new Button(xPosition + listWidth + 10, yPosition + 10, 20, 10, "+");
+                        Button minusButton = new Button(xPosition + listWidth + 10, yPosition + 25, 20, 10, "-");
+                        plusButton.draw(mc, matrixStack, (int) mouseX, (int) mouseY);
+                        minusButton.draw(mc, matrixStack, (int) mouseX, (int) mouseY);
+                        DrawableHelper.fill(matrixStack, xPosition + listWidth + 10, yPosition, xPosition + listWidth + 10 + 170, yPosition + 50, 0x80000000);
+                        mc.textRenderer.drawWithShadow(matrixStack, module.getName() + " config", xPosition + listWidth + 40, yPosition + 25, 0xFFFFFF);
+                        mc.textRenderer.drawWithShadow(matrixStack, module.getConfigName() + String.format("%.1f", module.getConfig()), xPosition + listWidth + 40, yPosition + 35, 0xFFFFFF);
+                    }
                     // 检测鼠标是否在GUI区域内，并执行相应的操作
                     if (mc.mouse.wasLeftButtonClicked()) {
                         if (checkMouseHover(xPosition + listWidth + 10, yPosition + 10, 20, 10)) {
@@ -98,9 +97,12 @@ import java.util.Objects;
                 }
                 // 绘制模块名称和边框
                 int color = module.isEnabled() ? 0x00FFFF : -1;
-                String bind = (GLFW.glfwGetKeyName(module.getKeyBind(), GLFW.glfwGetKeyScancode(module.getKeyBind())));
-                if ((GLFW.glfwGetKeyName(module.getKeyBind(), GLFW.glfwGetKeyScancode(module.getKeyBind()))) != null) {
-                    bind = (Objects.requireNonNull(GLFW.glfwGetKeyName(module.getKeyBind(), GLFW.glfwGetKeyScancode(module.getKeyBind())))).toUpperCase();
+                String bind = null;
+                if (module.getKeyBind()!=null) {
+                    bind = (GLFW.glfwGetKeyName(module.getKeyBind(), GLFW.glfwGetKeyScancode(module.getKeyBind())));
+                    if ((GLFW.glfwGetKeyName(module.getKeyBind(), GLFW.glfwGetKeyScancode(module.getKeyBind()))) != null) {
+                        bind = (Objects.requireNonNull(GLFW.glfwGetKeyName(module.getKeyBind(), GLFW.glfwGetKeyScancode(module.getKeyBind())))).toUpperCase();
+                    }
                 }
 
                 mc.textRenderer.drawWithShadow(matrixStack, module.getName() + " bind: " + bind, xPosition + 10, yPosition + 15, color);
@@ -119,7 +121,7 @@ import java.util.Objects;
         }
     }
 
-    private void handleModuleClick(Module module) {
+    private void handleModuleClick(FeatureModule module) {
         if ((System.currentTimeMillis() - lastActionTime) > MINIMUM_DELAY_MS) {
             if (module != null) {
                 module.setEnabled(!module.isEnabled()); // 切换状态
@@ -131,7 +133,7 @@ import java.util.Objects;
 
 
 
-    private void onClickButton(Module module,double config) {
+    private void onClickButton(FeatureModule module, double config) {
         if ((System.currentTimeMillis() - lastActionTime) > MINIMUM_DELAY_MS) {
             module.setConfig(config);
             lastActionTime = System.currentTimeMillis();

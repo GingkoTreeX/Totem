@@ -1,11 +1,11 @@
 package net.GingkoTreeX.totem.features.module;
 
-import net.GingkoTreeX.totem.features.Module;
+import net.GingkoTreeX.totem.features.FeatureModule;
 import net.GingkoTreeX.totem.features.Category;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 
-public class FastSneak extends Module {
+public class FastSneak extends FeatureModule {
 
     private static final int MINIMUM_DELAY_MS = 150;
     private long lastActionTime;
@@ -32,8 +32,12 @@ public class FastSneak extends Module {
 
     @Override
     public void onEnable() {
-        super.onEnable();
         lastActionTime = System.currentTimeMillis();
+    }
+
+    @Override
+    public void onDisable() {
+
     }
 
     @Override

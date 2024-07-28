@@ -1,19 +1,18 @@
 package net.GingkoTreeX.totem.gui.hud;
 
-import net.GingkoTreeX.totem.features.Module;
+import net.GingkoTreeX.totem.features.FeatureModule;
 import net.GingkoTreeX.totem.features.Category;
 import net.GingkoTreeX.totem.features.ModuleHackFramework;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import java.util.List;
 
 @Mod.EventBusSubscriber(modid = "totem",bus = Mod.EventBusSubscriber.Bus.MOD)
-public class Hud extends Module {
+public class Hud extends FeatureModule {
     private static boolean isOpen;
     private final MinecraftClient mc = MinecraftClient.getInstance();
 
@@ -23,12 +22,12 @@ public class Hud extends Module {
 
     @Override
     public void onEnable() {
-        super.onEnable();
+
         isOpen = true;
     }
     @Override
     public void onDisable() {
-        super.onDisable();
+
         isOpen = false;
     }
 
@@ -49,10 +48,10 @@ public class Hud extends Module {
         mc.textRenderer.drawWithShadow(matrices, "[tips]" + "使用G键打开ClickGui", xPosition, yPosition + 2, 0XFF0000);
         yPosition += elementHeight;
         mc.textRenderer.drawWithShadow(matrices, "[tips]" + "输入.bind <key> <module>绑定按键", xPosition, yPosition + 2, 0XFF0000);
-        List<Module> modules = ModuleHackFramework.getInstance().getAllModule();
+        List<FeatureModule> modules = ModuleHackFramework.getInstance().getAllModule();
 
         for (int i = 0; i < modules.size() && yPosition <= mc.getWindow().getScaledHeight() - 15; i++) {
-            Module module = modules.get(i);
+            FeatureModule module = modules.get(i);
             if (module.isEnabled()) {
                    // 添加矩形边框
                 yPosition += elementHeight;

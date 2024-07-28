@@ -17,6 +17,7 @@ public class ModuleHackFramework extends HackFramework implements EventListener 
         if (INSTANCE == null) {
             INSTANCE = new ModuleHackFramework();
         }
+
         return INSTANCE;
     }
 
@@ -30,15 +31,18 @@ public class ModuleHackFramework extends HackFramework implements EventListener 
         registerModule(new AutoEat());
         registerModule(new Criticals());
         registerModule(new AutoPursuit());
-        registerModule(new AntiTpaura());
+        registerModule(new AirJump());
         registerModule(new FastSneak());
-        registerModule(new Esp());
+        registerModule(new Lighting());
+        registerModule(new SlowKillAura());
+        registerModule(new GhostHand());
+        registerModule(new Speed());
     }
 
 
-    public Module getModuleByName(String name) {
-        List<Module> modules=getModules();
-        for (Module module : modules) {
+    public FeatureModule getModuleByName(String name) {
+        List<FeatureModule> modules=getModules();
+        for (FeatureModule module : modules) {
             if (module.getName().equalsIgnoreCase(name)) {
                 return module;
             }
@@ -47,13 +51,13 @@ public class ModuleHackFramework extends HackFramework implements EventListener 
     }
 
 
-    public List<Module> getAllModule(){
+    public List<FeatureModule> getAllModule(){
        return super.getModules();
     }
 
-    public List<Module> getCategoryModules(Category category) {
-        List<Module> categoryModules = new ArrayList<>();
-        for (Module module : getModules()) {
+    public List<FeatureModule> getCategoryModules(Category category) {
+        List<FeatureModule> categoryModules = new ArrayList<>();
+        for (FeatureModule module : getModules()) {
             if (module.getCategory() == category) {
                 categoryModules.add(module);
             }

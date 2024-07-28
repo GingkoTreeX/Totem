@@ -1,7 +1,7 @@
 package net.GingkoTreeX.totem.features.module;
 
 import net.GingkoTreeX.totem.features.Category;
-import net.GingkoTreeX.totem.features.Module;
+import net.GingkoTreeX.totem.features.FeatureModule;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -10,7 +10,7 @@ import net.minecraft.item.Items;
 import net.minecraft.util.Hand;
 
 
-public class AutoEat extends Module {
+public class AutoEat extends FeatureModule {
     private long lastActionTime;
     private static final int MINIMUM_DELAY_MS = 5000;
 
@@ -21,7 +21,6 @@ public class AutoEat extends Module {
 
     @Override
     public void onEnable() {
-        super.onEnable();
     }
 
     @Override
@@ -74,6 +73,5 @@ public class AutoEat extends Module {
 
     @Override
     public void onDisable() {
-        super.onDisable();
     }
 }

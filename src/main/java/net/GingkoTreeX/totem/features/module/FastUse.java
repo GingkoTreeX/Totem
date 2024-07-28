@@ -1,13 +1,13 @@
 package net.GingkoTreeX.totem.features.module;
 
 import net.GingkoTreeX.totem.features.Category;
-import net.GingkoTreeX.totem.features.Module;
+import net.GingkoTreeX.totem.features.FeatureModule;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.math.Vec3d;
 import org.lwjgl.glfw.GLFW;
 
-public class FastUse extends Module {
+public class FastUse extends FeatureModule {
     MinecraftClient mc = MinecraftClient.getInstance();
 
     public FastUse() {
@@ -16,7 +16,7 @@ public class FastUse extends Module {
 
     @Override
     public void onEnable() {
-        super.onEnable();
+
     }
 
     @Override
@@ -48,6 +48,5 @@ public class FastUse extends Module {
     @Override
     public void onDisable() {
 
-        super.onDisable();
     }
 }

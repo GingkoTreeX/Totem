@@ -2,7 +2,6 @@ package net.GingkoTreeX.totem.mixin;
 
 import net.GingkoTreeX.totem.features.ModuleHackFramework;
 import net.GingkoTreeX.totem.gui.ClickGui;
-import net.GingkoTreeX.totem.utils.MessageUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.Mouse;
 import net.minecraft.client.gui.screen.Screen;
@@ -10,7 +9,10 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.GlfwUtil;
 import net.minecraft.client.util.InputUtil;
 import net.minecraftforge.client.ForgeHooksClient;
-import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.Shadow;
 
 
 @Mixin(Mouse.class)
