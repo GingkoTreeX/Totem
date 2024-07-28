@@ -11,13 +11,12 @@ import org.lwjgl.glfw.GLFW;
 public class Commands {
     public static void onChat(String message, ClientChatEvent event) {
         if (message.startsWith(".")) {
-            String[] parts = message.substring(1).split(" "); // 移除开头的句点并按空格分割命令
+            String[] parts = message.substring(1).split(" ");
 
             if ("bind".equals(parts[0])) {
-                // 检查第一个部分是否为"bind"
-                if (parts.length >= 3) { // 确保有足够的参数
+                if (parts.length >= 3) {
                     String moduleName = parts[1];
-                        int key = mapCharacterToGLFWKey(parts[2].charAt(0)); // 尝试将第二个参数转换为整数作为键位
+                        int key = mapCharacterToGLFWKey(parts[2].charAt(0));
                         FeatureModule moduleToBind = findModuleByName(moduleName);
                         if (moduleToBind != null) {
                             if (parts[2].equalsIgnoreCase("None")){
@@ -39,7 +38,6 @@ public class Commands {
         }
     }
 
-    // 假设的模块查找方法，实际应用中需要根据你的Mod架构实现
     private static FeatureModule findModuleByName(String moduleName) {
        if (moduleName!=null){
            return ModuleHackFramework.getInstance().getModuleByName(moduleName);
@@ -67,7 +65,7 @@ public class Commands {
 
             key = keyCode;
             if (Character.toUpperCase(mappedChar) == Character.toUpperCase(character)) {
-                break; // 只需找到第一个匹配项
+                break;
             }
         }
         return key;
